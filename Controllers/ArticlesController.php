@@ -1,88 +1,90 @@
 <?php
 namespace Controllers;
+use config\Database;
+use Models\Article;
+
 require_once('config/Database.php');
 require_once('Models/Article.php');
 require('function.php');
 class ArticlesController {
 
-    public static function getAll()
+    private Database $database;
+    private Article $article;
+    private $fitErrMessage = "Wystąpił błąd. Nazwy wstawianych zmiennych 
+    odbiegają od nazw zmiennych obiektu/ pól w tabeli.";
+
+
+    public function __construct()
     {
-        $database = new \config\Database();
-        $article = new \Models\Article();
-        $articles = $database->select($article->table, $article->fields, [
+        $this->database = new Database();
+        $this->article = new Article();
+    }
+
+
+    public function getAll()
+    {
+        $articles = $this->database->select($this->article->table(), $this->article->fields(), [
             'status' => 1
         ]);
         return view('articles/index', $articles);
     }
 
-    public static function getOne($article_id)
+    public function getOne($article_id)
     {
-        $database = new \config\Database();
-        $article = new \Models\Article();
-        $article = $database->get($article->table, $article->fields, [
+        $article = $this->database->get($this->article->table(), $this->article->fields(), [
             'id' => $article_id
         ]);
         return view('articles/show', $article);
     }
 
-    public static function edit($article_id){
-        $database = new \config\Database();
-        $article =new \Models\Article();
-        $article = $database->get($article->table, $article->fields, [
+    public function edit($article_id){
+
+        $article = $this->database->get($this->article->table(), $this->article->fields(), [
            'id' => $article_id
         ]);
         return view('articles/edit', $article);
     }
 
-    public static function upload(array $data)
+    public function upload(array $data)
     {
-        $database = new \config\Database();
-        $article = new \Models\Article();
-        if(array_diff_key($data, $article->fillable) === [])
+        if(array_diff_key($data, $this->article->fillable()) === [])
         {
-            $database->insert($article->table, $data);
+            $this->database->insert($this->article->table(), $data);
             header('Location: /articles');
             return;
         }
-        echo "Wystąpił błąd. Nazwy wstawianych zmiennych odbiegają od nazw zmiennych obiektu/ pól w tabeli.";
-        return;
+
+        echo $this->fitErrMessage;
     }
 
-    public static function create(){
+    public function create(){
         return view('articles/create', []);
     }
 
-    public static function update($article_id, array $data)
+    public function update($article_id, array $data)
     {
-        $database = new \config\Database();
-        $article = new \Models\Article();
         unset($data['id']);
-        if(array_diff_key($data, $article->fillable) === [])
+        if(array_diff_key($data, $this->article->fillable()) === [])
         {
-            $database->update($article->table, $data, [
+            $this->database->update($this->article->table(), $data, [
                 'id' => $article_id
             ]);
 
             header('Location: /articles');
             return;
         }
-        echo "Wystąpił błąd. Nazwy wstawianych zmiennych odbiegają od nazw zmiennych obiektu/ pól w tabeli.";
-        return;
+        echo $this->fitErrMessage;
     }
 
-    public static function delete($article_id){
-        $database = new \config\Database();
-        $article = new \Models\Article();
-        $database->delete($article->table, [
+    public function delete($article_id){
+        $this->database->delete($this->article->table(), [
             'id' => $article_id
         ]);
         header('Location: /articles');
-        return;
     }
 
-    public static function count(){
-        $database = new \config\Database();
-        $article = new \Models\Article();
-        return $database->select($article->table, $article->fields, 'id');
+    public function getIds(){
+        return $this->database->select($this->article->table(), $this->article->fields(), 'id');
     }
+
 }

@@ -3,8 +3,8 @@
 namespace Models;
 class Article{
 
-    public $table = 'articles';
-    public $fields = [
+    private string $table = 'articles';
+    private array $fields = [
         'id',
         'category_id',
         'title',
@@ -13,14 +13,25 @@ class Article{
         'updated'
     ];
 
-    public $fillable = [
+    private array $fillable = [
         'category_id' => null,
-        'title' => '',
         'content' => '',
+        'title' => '',
         'status' => false
     ];
 
-
+    public function table(): string
+    {
+        return $this->table;
+    }
+    public function fields(): array
+    {
+        return $this->fields;
+    }
+    public function fillable(): array
+    {
+        return $this->fillable;
+    }
 
 
 }

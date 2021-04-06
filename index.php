@@ -1,5 +1,6 @@
 <?php
 require_once('Controllers/ArticlesController.php');
+$articlesController = new \Controllers\ArticlesController();
 $uri = $_SERVER['REQUEST_URI'];
 $msg404 = "<p style=' overflow-x: hidden; overflow-y: hidden; font-family: Verdana; padding-top: 30vh; padding-bottom: 40vh;
                       margin: 0; background-color: #2c3c3c; width: 100%; color: #fafafa; text-align: center;'>
@@ -9,35 +10,36 @@ switch($uri){
     case '/':
     case '/articles':
     case '/articles/':
-        \Controllers\ArticlesController::getAll();
+        $articlesController->getAll();
         break;
     case '/articles/create':
-        \Controllers\ArticlesController::create();
+        $articlesController->create();
         break;
     case '/articles/upload':
-        \Controllers\ArticlesController::upload($_POST);
+        $articlesController->upload($_POST);
         break;
     case '/articles/update':
-        \Controllers\ArticlesController::update($_POST['id'], $_POST);
+        $articlesController->update($_POST['id'], $_POST);
         break;
 
     default:
-        $id_1 = correctVariable($uri,'/articles/');
-        $id_2 = correctVariable($uri, '/articles/edit/');
-        $id_3 = correctVariable($uri, '/articles/delete/');
+        $ids = $articlesController->getIds();
+        $id_1 = correctVariable($uri,'/articles/', $ids);
+        $id_2 = correctVariable($uri, '/articles/edit/', $ids);
+        $id_3 = correctVariable($uri, '/articles/delete/', $ids);
         if($id_1 >0)
         {
-            \Controllers\ArticlesController::getOne($id_1);
+            $articlesController->getOne($id_1);
             break;
         }
         if($id_2 >0)
         {
-            \Controllers\ArticlesController::edit($id_2);
+            $articlesController->edit($id_2);
             break;
         }
         if($id_3 >0)
         {
-            \Controllers\ArticlesController::delete($id_3);
+            $articlesController->delete($id_3);
             break;
         }
 
@@ -47,12 +49,11 @@ switch($uri){
 
 }
 
-function correctVariable($uri, $dir){
-    $id = substr($uri, strlen($dir));
-    $articles = \Controllers\ArticlesController::count();
-    foreach($articles as $article){
-        if($article['id']===$id){
-            return $id;
+function correctVariable($uri, $dir, $ids){
+    $article_id = substr($uri, strlen($dir));
+    foreach($ids as $id){
+        if($id['id']===$article_id){
+            return $article_id;
         }
     }
     return 0;
