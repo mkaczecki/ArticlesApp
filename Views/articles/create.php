@@ -1,6 +1,6 @@
 <?php include('template/header.php') ?>
 <div class="row px-0 mx-0 py-5">
-    <div class="col-4 offset-4">
+    <div class="col-10 offset-1 col-md-4 offset-md-4">
         <form class="form-control px-3" method="post" action="/articles/upload">
             <label for="category_id">Kategoria</label>
             <select class="w-100 py-1 mb-4 mt-1 form-control" name="category_id" required>

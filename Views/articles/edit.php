@@ -1,6 +1,6 @@
 <?php include('template/header.php') ?>
 <div class="row px-0 mx-0 py-5">
-    <div class="col-4 offset-4">
+    <div class="col-10 offset-1 col-md-4 offset-md-4">
         <?php if(isset($data) && $data != []){
             $article = $data;
         } ?>

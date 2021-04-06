@@ -10,6 +10,6 @@
 </head>
 <body style="overflow-x: hidden; font-family: 'Montserrat', sans-serif;">
 <div class="row bg-dark py-3 text-white px-0 mx-0">
-    <div class="col-12 col-md-6 offset-md-2 text-center"><a href="/" class="text-decoration-none text-white">. : : Gazeta : : .</a></div>
-    <div class="col-12 col-md-3"><a href="/articles/create" class="text-decoration-none text-white">Utwórz Nowy Artykuł</a></div>
+    <div class="col-12 col-md-6 offset-md-3 text-center"><a href="/" class="text-decoration-none text-white">. : : Gazeta : : .</a></div>
+    <div class="col-12 col-md-3 text-center"><a href="/articles/create" class="text-decoration-none text-white">Utwórz Nowy Artykuł</a></div>
 </div>
