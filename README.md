@@ -11,5 +11,5 @@ Only routes operated by index file can be accessed. Any other routes provides us
 ## Controller
 
 There is only one Controller - ArticlesController and all the methods like create, show, delete, update are operated in this class.
-I'm not very experienced engineeer but I thinks that's called RESTful Controller :)
+I'm not very experienced engineeer but I think that's called RESTful Controller :)
 
